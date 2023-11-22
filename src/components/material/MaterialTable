@@ -1,0 +1,37 @@
+import React from 'react';
+import MaterialTable from 'material-table';
+
+const MaterialTable = ({ data, onDelete, onUpdate }) => {
+  const columns = [
+    { title: 'ID', field: 'id', editable: 'never' },
+    { title: 'Name', field: 'name' },
+    { title: 'Price', field: 'price' },
+  ];
+
+  const options = {
+    actionsColumnIndex: -1,
+  };
+
+  return (
+    <MaterialTable
+      title="Material Table"
+      columns={columns}
+      data={data}
+      editable={{
+        onRowDelete: (oldData) =>
+          new Promise((resolve) => {
+            onDelete(oldData.id);
+            resolve();
+          }),
+        onRowUpdate: (newData, oldData) =>
+          new Promise((resolve) => {
+            onUpdate(newData);
+            resolve();
+          }),
+      }}
+      options={options}
+    />
+  );
+};
+
+export default MaterialTable;
